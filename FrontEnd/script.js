@@ -73,3 +73,50 @@ export const createCategoryButtons = () => {
         categories.appendChild(button);
         }
 }
+
+const filterWorksByCaterogy = (categories);
+
+filterWorksByCaterogy.addEventListener('click', () => {
+    const selectedCategoryId = parseInt(event.target.getAttribute('data-category-id'), 10);
+    gallery.innerHTML = ''; // Vider la galerie existante
+    let filteredWorks = worksFetched; // Par défaut, tous les oeuvres
+
+    if (selectedCategoryId !== 0) { // Si la catégorie n'est pas "Tous"
+        filteredWorks = worksFetched.filter(work => work.categoryId === selectedCategoryId);
+    }
+    
+    console.log("Filtered works:", filteredWorks);
+    
+    for (let work of filteredWorks) {
+        const figure = createFigure(work);
+        gallery.appendChild(figure);
+    }
+});
+
+// Fonction pour filtrer les œuvres par catégorie
+    // export const filterWorksByCategory = (categories) => {
+    // try {
+//     gallery.innerHTML = ''; // Vider la galerie existante
+//     let filteredWorks = worksFetched; // Par défaut, afficher toutes les œuvres
+
+//     if (categories !== 0) { // Si la catégorie n'est pas "Tous"
+//         filteredWorks = worksFetched.filter(work => work.categories === categories);
+//     }
+//     console.log("Filtered works:", filteredWorks);
+// } catch (error) {
+//     console.error('Error filtering works:', error);
+// }
+// };
+
+
+
+ // categories.addEventListener('click', () => {
+//     if (categories === '0') {
+//         gallery.innerHTML = ''; // Vider la galerie existante
+//         fetchWorks(); // Récup toutes les œuvres
+//         console.log("Affichage de toutes les œuvres");
+//     }
+
+
+
+// });
