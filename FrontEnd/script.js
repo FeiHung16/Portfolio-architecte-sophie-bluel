@@ -1,10 +1,11 @@
 const gallery = document.querySelector('.gallery');
-const categories = document.querySelector('.categories');
+const categoriesContainer = document.querySelector('.categories');
 
 const BASE_URL = 'http://localhost:5678';
 
 let worksFetched = []; 
 let categoriesFetched = [];
+
 
 export const fetchWorks = async () => {
     try {
@@ -64,19 +65,26 @@ fetchCategories();
 
 // Fonction pour créer les boutons de catégorie
 export const createCategoryButtons = () => {
-    categories.innerHTML = ''; // Vider les catégories existantes
+    categoriesContainer.innerHTML = ''; // Vider les catégories existantes
     for (let category of categoriesFetched) {
         const button = document.createElement('button');
         button.textContent = category.name;
         button.setAttribute('data-category-id', category.id); // Ajouter l'ID de la catégorie comme attribut de données
         button.classList.add('category-button');
-        categories.appendChild(button);
+        categoriesContainer.appendChild(button);
         }
 }
 
-const filterWorksByCaterogy = (categories);
 
-filterWorksByCaterogy.addEventListener('click', () => {
+
+categoriesContainer.addEventListener('click', (event) => {
+    // Au clic sur un bouton on l'active avec le style "active"
+    const allButtons = document.querySelectorAll('.category-button');
+    allButtons.forEach(button => {
+        button.classList.remove('active-filter');
+    });
+    event.target.classList.add('active-filter'); // Ajouter la classe active au bouton cliqué
+    // Filtrer les oeuvres en fonction de la catégorie sélectionnée
     const selectedCategoryId = parseInt(event.target.getAttribute('data-category-id'), 10);
     gallery.innerHTML = ''; // Vider la galerie existante
     let filteredWorks = worksFetched; // Par défaut, tous les oeuvres
@@ -93,30 +101,6 @@ filterWorksByCaterogy.addEventListener('click', () => {
     }
 });
 
-// Fonction pour filtrer les œuvres par catégorie
-    // export const filterWorksByCategory = (categories) => {
-    // try {
-//     gallery.innerHTML = ''; // Vider la galerie existante
-//     let filteredWorks = worksFetched; // Par défaut, afficher toutes les œuvres
-
-//     if (categories !== 0) { // Si la catégorie n'est pas "Tous"
-//         filteredWorks = worksFetched.filter(work => work.categories === categories);
-//     }
-//     console.log("Filtered works:", filteredWorks);
-// } catch (error) {
-//     console.error('Error filtering works:', error);
-// }
-// };
 
 
 
- // categories.addEventListener('click', () => {
-//     if (categories === '0') {
-//         gallery.innerHTML = ''; // Vider la galerie existante
-//         fetchWorks(); // Récup toutes les œuvres
-//         console.log("Affichage de toutes les œuvres");
-//     }
-
-
-
-// });
