@@ -52,6 +52,7 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+	position: relative;
 }
 header {
 	display: flex;
@@ -88,11 +89,25 @@ nav ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
+	gap: 20px;
 
 }
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
+}
+
+nav li:nth-child(3) {
+font-family: Work Sans;
+font-weight: 600;
+font-size: 16px;
+text-align: center;
+
+}
+
+nav img {
+	height: 22px;
+    width: 22px;
 }
 
 li:hover {
@@ -210,7 +225,66 @@ input[type="submit"]{
 
 footer nav ul {
 	display: flex;
+	position: absolute;
+    right: 0;
+    width: 100%;
+    bottom: -180px;
 	justify-content: flex-end;
 	margin: 2em
 }
+
+footer nav li {
+	font-family: Work Sans;
+	font-size: 14px;
+	font-weight: 300;	
+}
+
+
+#login {
+	width: 35%;
+	margin: auto;
+}
+
+#login > * {
+	text-align: center;
+	
+}
+
+#login h2 {
+	margin-bottom: 20px;
+}	
+
+#login form {
+	text-align: left;
+	margin-top:30px;
+	display: flex;
+	flex-direction: column;
+}
+
+#login input {
+	height: 50px;
+	font-size: 1.2em;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+#login label {
+	font-family: Work Sans;
+    margin: 2em 0 1em 0;
+    font-weight: 500;
+    font-size: 14px;
+    color: rgba(61, 61, 61, 1);
+}
+
+.motDePasseOublie {
+	text-align: center;
+    margin-top: 10px;
+    color: rgba(61, 61, 61, 1);
+    font-family: Work Sans;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+
+
 
