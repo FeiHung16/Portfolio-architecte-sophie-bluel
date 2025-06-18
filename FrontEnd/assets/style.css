@@ -376,12 +376,25 @@ footer nav li {
 }
 
 .motDePasseOublie {
-	text-align: center;
+	display: flow;
 	margin-top: 10px;
 	color: rgba(61, 61, 61, 1);
 	font-family: Work Sans;
 	font-weight: 500;
 	font-size: 14px;
+}
+
+a {
+	text-decoration: none;
+	color: rgba(61, 61, 61, 1);
+}
+
+a:hover {
+	font-weight: 700;
+}
+
+a:visited {
+	color: rgba(61, 61, 61, 1);
 }
 
 .footer-nav {
