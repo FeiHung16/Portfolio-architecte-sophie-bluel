@@ -3,15 +3,15 @@ const logApi = "http://localhost:5678/api/users/login";
 
 document.getElementById("login").addEventListener("submit", submitPassword);
 
-async function submitPassword(e)  {
+async function submitPassword(event)  {
 
-    e.preventDefault(); 
+    event.preventDefault(); 
 
-    let user = {
-    email: "sophie.bluel@test.tld",
-    password: "S0phie"
-    
-}
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const user =  {email, password};
+
 try {
 let response = await fetch(logApi, {
     method: "POST",
@@ -22,18 +22,23 @@ let response = await fetch(logApi, {
 });
 
 if (!response.ok) {
-   throw new Error('Erreur HTTP: ' + response.status);
+   throw new Error('Mot de passe ou email incorrect');
 }
 
-let result = await response.json();
-console.log(result);
-alert(result.message);
+const result = await response.json();
+
+localStorage.setItem("token", result.token);
+
+setTimeout(() => {
+    window.location.href = "index.html";
+}, 1000);
+
+
 } catch (error) {
-    console.error('Erreur lors de la soumission du mot de passe:', error);
+    console.error('Erreur lors de la connexion:', error);
 }
 }
 
-submitPassword();
 
 
 
