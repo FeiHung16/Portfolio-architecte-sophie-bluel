@@ -143,6 +143,26 @@ body {
 	position: relative;
 }
 
+.edit {
+	display: none;
+	justify-content: center;
+	align-items: center;
+	height: 59px;
+	background: black;
+}
+
+.edit i {
+	color: white;
+	display: flex;
+}
+
+.edit p {
+	display: flex;
+	color: white;
+	font-size: 16px;
+	font-weight: 400;
+}
+
 header {
 	display: flex;
 	justify-content: space-between;
@@ -204,6 +224,10 @@ nav img {
 
 li:hover {
 	color: #B1663C;
+}
+
+.logout {
+	display: none;
 }
 
 #introduction {
@@ -382,6 +406,12 @@ footer nav li {
 	font-family: Work Sans;
 	font-weight: 500;
 	font-size: 14px;
+	text-decoration: underline;
+}
+
+#messageError {
+	color: red;
+	padding-top: 15px;
 }
 
 a {
