@@ -147,16 +147,20 @@ body {
 	display: none;
 	justify-content: center;
 	align-items: center;
-	height: 59px;
-	background: black;
 }
 
-.edit i {
+.banner {
+	height: 59px;
+	background: black;
+	gap: 10px	;
+}
+
+.banner i {
 	color: white;
 	display: flex;
 }
 
-.edit p {
+.banner p {
 	display: flex;
 	color: white;
 	font-size: 16px;
@@ -260,6 +264,22 @@ li:hover {
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
+}
+
+.editmodifier {
+	align-items: baseline;
+}
+
+.editmodifier i {
+	margin-left: 15px;
+}
+
+.editmodifier p {
+	font-family: 'Work Sans';
+	font-weight: 400;
+	font-size: 14px;
+	color: black;
+	margin-left: 10px;
 }
 
 .categories {

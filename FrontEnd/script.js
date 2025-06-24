@@ -103,10 +103,13 @@ categoriesContainer.addEventListener('click', (event) => {
 
 const token = localStorage.getItem("token");
 if (token) {
-    const editBanner = document.querySelector('.edit');
-    editBanner.style.display = 'flex'; // Afficher la bannière d'édition si le token est présent
+    const editBanner = document.querySelectorAll('.edit');
+    editBanner.forEach(banner => {
+        banner.style.display = 'flex'; // Afficher les éléments avec la classe "edit"
+    });
     const login = document.querySelector('#loginProfile');
-    loginProfile.textContent = "logout";
+    login.textContent = "logout";
+    localStorage.removeItem("token"); // Supprimer le token du localStorage
 }
 
 
