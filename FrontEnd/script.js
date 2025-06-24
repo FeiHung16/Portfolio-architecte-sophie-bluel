@@ -104,8 +104,8 @@ categoriesContainer.addEventListener('click', (event) => {
 const token = localStorage.getItem("token");
 if (token) {
     const editBanner = document.querySelectorAll('.edit');
-    editBanner.forEach(banner => {
-        banner.style.display = 'flex'; // Afficher les éléments avec la classe "edit"
+    editBanner.forEach( a  => {
+        a.style.display = 'flex'; // Afficher les éléments avec la classe "edit"
     });
     const login = document.querySelector('#loginProfile');
     login.textContent = "logout";
