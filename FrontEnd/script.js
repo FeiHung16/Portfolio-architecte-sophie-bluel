@@ -1,8 +1,5 @@
 const gallery = document.querySelector('.gallery');
 const categoriesContainer = document.querySelector('.categories');
-const modalContainer = document.querySelector('.modal-container');
-const modalTriggers = document.querySelectorAll('.modal-trigger');
-const galleryModal = document.querySelector('.gallery-modal');
 const login = document.querySelector('#loginProfile');
 
 const BASE_URL = 'http://localhost:5678';
@@ -26,7 +23,6 @@ export const fetchWorks = async () => {
         for (let work of worksFetched) {
             const figure = createFigure(work);
             gallery.appendChild(figure);
-            galleryModal.appendChild(figure.cloneNode(true)); // Ajouter les mêmes figures à la modale
         }
     } catch (error) {
         console.error('Error fetching works:', error);
@@ -126,12 +122,5 @@ if (login.textContent === "logout") {
 }
 
 
-modalTriggers.forEach(trigger => trigger.addEventListener('click', toggleModal));
-
-function toggleModal() {
-  modalContainer.classList.toggle('active');
-    const overlay = document.querySelector('.overlay');
-    overlay.style.display = modalContainer.classList.contains('active') ? 'block' : 'none';
-}
 
 
