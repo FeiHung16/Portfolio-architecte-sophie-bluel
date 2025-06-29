@@ -3,6 +3,7 @@ const categoriesContainer = document.querySelector('.categories');
 const modalContainer = document.querySelector('.modal-container');
 const modalTriggers = document.querySelectorAll('.modal-trigger');
 const galleryModal = document.querySelector('.gallery-modal');
+const login = document.querySelector('#loginProfile');
 
 const BASE_URL = 'http://localhost:5678';
 
@@ -107,13 +108,21 @@ categoriesContainer.addEventListener('click', (event) => {
 
 const token = localStorage.getItem("token");
 if (token) {
-    const editBanner = document.querySelectorAll('.edit');
+    const editBanner = document.querySelectorAll('.hide');
     editBanner.forEach( a  => {
         a.style.display = 'flex'; // Afficher les éléments avec la classe "edit"
     });
-    const login = document.querySelector('#loginProfile');
+    
     login.textContent = "logout";
-    localStorage.removeItem("token"); // Supprimer le token du localStorage
+    
+}
+
+if (login.textContent === "logout") {
+    login.addEventListener('click', (e) => {
+        e.preventDefault();
+        localStorage.removeItem("token");
+        window.location.href = "index.html";   
+    });
 }
 
 
@@ -121,7 +130,8 @@ modalTriggers.forEach(trigger => trigger.addEventListener('click', toggleModal))
 
 function toggleModal() {
   modalContainer.classList.toggle('active');
-
+    const overlay = document.querySelector('.overlay');
+    overlay.style.display = modalContainer.classList.contains('active') ? 'block' : 'none';
 }
 
 
