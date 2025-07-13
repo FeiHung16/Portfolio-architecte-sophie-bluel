@@ -5,7 +5,11 @@ const modal1 = document.querySelector('.modal-1');
 const galleryModal = document.querySelector('.galleryModal');
 const iconClose = document.querySelector('.modal-icon');
 const overlay = document.querySelector('.overlay');
-const btnTrigger = document.querySelector('.modal-trigger'); //Bouton modifier
+const btnTrigger = document.querySelector('.modal-trigger'); //Bouton ajouter une image
+const fileInput = document.querySelector('#fileInput'); // Input pour ajouter une image
+const buttonFile = document.querySelector('.button-file'); // Bouton pour ajouter une image
+const iconeImage = document.querySelector ('.fa-image')
+
 
 const BASE_URL = 'http://localhost:5678';
 
@@ -254,5 +258,35 @@ btnTrigger2.addEventListener('click', (e) => {
         }
     }
     );
+});
+
+document.querySelector('.button-file button').addEventListener('click', (event) => {
+    event.preventDefault(); // Empêcher le comportement par défaut du bouton
+    fileInput.click(); // Simuler un clic sur l'input file pour ouvrir le sélecteur de fichiers
+});
+
+fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    const ALLOWED_EXTENSIONS = ['png', 'jpg']// Extensions autorisées
+    const fileName = file.name;
+    const fileExtension = fileName.split('.').pop().toLowerCase();
+
+    if (file && ALLOWED_EXTENSIONS.includes(fileExtension) && file.size <= 4 * 1024 * 1024) { // Vérifier la taille du fichier (max 4 Mo)
+        // Si le fichier est valide, on affiche l'aperçu de l'image dans la modale
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const img = document.querySelector('#preview');
+            img.src = e.target.result; // Afficher l'image sélectionnée dans la modale
+            img.style.display = 'block'; // Afficher l'aperçu de l'image
+            document.querySelector ('.button-file button').style.display = 'none'; // Cacher le bouton "Ajouter une image"
+            document.querySelector('.button-file i').style.display = 'none'; // Cacher l'icône d'image
+            document.querySelector('.button-file p').style.display = 'none'; // Afficher le conteneur du bouton
+        };
+        reader.readAsDataURL(file);
+    } else {
+        console.error('Fichier invalide. Veuillez sélectionner une image au format PNG ou JPG et de taille inférieure à 4 Mo.');
+        alert('Fichier invalide. Veuillez sélectionner une image au format PNG ou JPG et de taille inférieure à 4 Mo.');
+        fileInput.value = ''; // Réinitialiser l'input file
+    }
 });
 

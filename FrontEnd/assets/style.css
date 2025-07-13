@@ -503,6 +503,12 @@ hr {
 	color: rgba(68, 68, 68, 1);
 }
 
+#preview {
+	width: 30%;
+	height: 100%;
+	object-fit: cover;
+}
+
 
 .categories {
 	display: flex;
