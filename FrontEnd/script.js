@@ -9,6 +9,7 @@ const btnTrigger = document.querySelector('.modal-trigger'); //Bouton ajouter un
 const fileInput = document.querySelector('#fileInput'); // Input pour ajouter une image
 const buttonFile = document.querySelector('.button-file'); // Bouton pour ajouter une image
 const iconeImage = document.querySelector ('.fa-image')
+const categorieDrop = document.querySelector('#categorieDrop'); // Sélecteur de catégorie
 
 
 const BASE_URL = 'http://localhost:5678';
@@ -175,10 +176,7 @@ btnTrigger.addEventListener('click', (e) => {
     modal1.style.display = 'block'; // Afficher la modale 1
     overlay.style.display = 'block'; // Afficher l'overlay
 
-    iconClose.addEventListener('click', () => {
-        modal1.style.display = 'none'; // Fermer la modale 1
-        overlay.style.display = 'none'; // Fermer l'overlay
-    });
+
 
     window.addEventListener('click', (event) => {
         if (event.target === overlay) {
@@ -188,6 +186,15 @@ btnTrigger.addEventListener('click', (e) => {
     }
     );
 });
+
+
+    iconClose.addEventListener('click', () => {
+        modal1.style.display = 'none'; // Fermer la modale 1
+           modal2.style.display = 'none'; // Fermer la modale 2 si elle est ouverte
+        overlay.style.display = 'none'; // Fermer l'overlay
+      
+    });
+
 
 // Delete work from modal
 galleryModal.addEventListener('click', async (event) => {
@@ -238,18 +245,13 @@ btnTrigger2.addEventListener('click', (e) => {
     modal1.style.display = 'none'; // Fermer la modale 1
 
     const modalArrow = document.querySelector('.modal-arrow');
-
     modalArrow.addEventListener('click', () => {
         modal2.style.display = 'none'; // Fermer la modale 2
         modal1.style.display = 'block'; // Réafficher la modale 1
     });
 
 
-    iconClose.addEventListener('click', () => {
 
-        modal2.style.display = 'none'; // Fermer la modale 2
-        overlay.style.display = 'none'; // Fermer l'overlay
-    });
 
     window.addEventListener('click', (event) => {
         if (event.target === overlay) {
@@ -289,4 +291,14 @@ fileInput.addEventListener('change', (event) => {
         fileInput.value = ''; // Réinitialiser l'input file
     }
 });
+
+categorieDrop.addEventListener('change', (event) => {
+    const selectedCategory = event.target.value;
+    console.log("Catégorie sélectionnée :", selectedCategory);
+    // Ici, vous pouvez ajouter la logique pour gérer la sélection de catégorie
+    const optionCategories = document.createElement('option');
+    optionCategories.value = fetchCategories();
+    categorieDrop.style.display = 'none'; // Cacher le sélecteur de catégorie après la sélection
+});
+
 
