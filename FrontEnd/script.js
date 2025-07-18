@@ -9,7 +9,7 @@ const btnTrigger = document.querySelector('.modal-trigger'); //Bouton ajouter un
 const fileInput = document.querySelector('#fileInput'); // Input pour ajouter une image
 const buttonFile = document.querySelector('.button-file'); // Bouton pour ajouter une image
 const iconeImage = document.querySelector ('.fa-image')
-const categorieDrop = document.querySelector('#categorieDrop'); // Sélecteur de catégorie
+
 
 
 const BASE_URL = 'http://localhost:5678';
@@ -68,6 +68,7 @@ export const fetchCategories = async () => {
         console.log("Ensemble des catégories", categories);
         categoriesFetched = categories;
         createCategoryButtons(); // Appeler la fonction pour créer les boutons de catégorie
+        categoriesDrop(); // Appeler la fonction pour créer les options de catégorie dans le select
     } catch (error) {
         console.error('Error fetching categories:', error);
     }
@@ -292,13 +293,21 @@ fileInput.addEventListener('change', (event) => {
     }
 });
 
-categorieDrop.addEventListener('change', (event) => {
-    const selectedCategory = event.target.value;
-    console.log("Catégorie sélectionnée :", selectedCategory);
-    // Ici, vous pouvez ajouter la logique pour gérer la sélection de catégorie
-    const optionCategories = document.createElement('option');
-    optionCategories.value = fetchCategories();
-    categorieDrop.style.display = 'none'; // Cacher le sélecteur de catégorie après la sélection
-});
+
+const scrollCategories = document.querySelector('#categorieDrop');
+let option = [];
+
+export const categoriesDrop = () => {
+    categoriesContainer.innerHTML = ''; // Vider les catégories existantes
+    for (let category of categoriesFetched) {
+        const option = document.createElement('option');
+        option.textContent = category.name;
+        option.setAttribute('data-category-id', category.id); // Ajouter l'ID de la catégorie comme attribut de données
+        option.classList.add('category-option');
+        scrollCategories.appendChild(option);
+    }
+}
+
+
 
 
