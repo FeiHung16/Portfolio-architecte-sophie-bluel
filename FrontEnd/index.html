@@ -82,15 +82,16 @@
 								<div class="button-file">
 									<i class="fa-regular fa-image"></i>
 									<button>+ Ajouter photo</button>
-									<input type="file" id="fileInput" style="display: none" />
-									<img id="preview" alt="Image Preview" style="display: none" src="#" />
+									<input type="file" id="fileInput"/>
+									<img id="preview" alt="Image Preview" src="#" />
 									<p>jpg, png : 4mo max</p>
 								</div>
 								<label for="title">Titre</label>
 								<input type="text" id="title" />
 								<label for="categorie">Catégorie</label>
-								<select name="categorie" id="categorie"></select>
-								<i class="fa-solid fa-chevron-down fa-xs"></i>
+								<select name="categorie" id="categorieDrop">
+								</select>
+								<!-- <i class="fa-solid fa-chevron-down fa-xs"></i> -->
 								<hr />
 								<input type="submit" value="Valider" id="input-color-validation" />
 							</form>
