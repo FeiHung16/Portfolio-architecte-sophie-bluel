@@ -202,9 +202,9 @@ h1>span {
 }
 
 h2 {
-	font-family: 'Syne';
-	font-weight: 700;
-	font-size: 30px;
+	font-family: 'Work Sans';
+	font-weight: 400;
+	font-size: 26px;
 	color: #1D6154
 }
 
@@ -336,6 +336,9 @@ li:hover {
 	display: flex;
 	justify-content: flex-end;
 	padding: 15px;
+}
+
+.modal-icon i {
 	cursor: pointer;
 }
 
@@ -437,6 +440,14 @@ hr {
 	flex-direction: column;
 }
 
+.modal-arrow, .modal-icon  {
+	margin: 1em;
+}
+
+.modal-title {
+	margin: 1.5em;
+}
+
 .modal-form label {
 	font-family: 'Work Sans';
 	font-weight: 500;
@@ -455,6 +466,25 @@ hr {
 	filter: drop-shadow(0px 4px 14px rgba(0, 0, 0, 0.09));
 }
 
+.modal-form [type="submit"] {
+	position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 5%;
+}
+
+.modal-form hr {
+	bottom: 20%
+}
+
+
+.modal-form select {
+	width: 420px;
+	height: 51px;
+	border: none;
+	background: rgba(255, 255, 255, 1);
+	filter: drop-shadow(0px 4px 14px rgba(0, 0, 0, 0.09));
+}
 
 .button-file {
 	display: flex;
@@ -503,7 +533,12 @@ hr {
 	color: rgba(68, 68, 68, 1);
 }
 
+#fileInput {
+	display: none;
+}
+
 #preview {
+	display: none;
 	width: 30%;
 	height: 100%;
 	object-fit: cover;
