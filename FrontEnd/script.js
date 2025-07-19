@@ -8,7 +8,7 @@ const overlay = document.querySelector('.overlay');
 const btnTrigger = document.querySelector('.modal-trigger'); //Bouton ajouter une image
 const fileInput = document.querySelector('#fileInput'); // Input pour ajouter une image
 const buttonFile = document.querySelector('.button-file'); // Bouton pour ajouter une image
-const iconeImage = document.querySelector ('.fa-image')
+const iconeImage = document.querySelector('.fa-image')
 const scrollCategories = document.querySelector('#categorieDrop');
 
 
@@ -191,12 +191,12 @@ btnTrigger.addEventListener('click', (e) => {
 });
 
 
-    iconClose.addEventListener('click', () => {
-        modal1.style.display = 'none'; // Fermer la modale 1
-           modal2.style.display = 'none'; // Fermer la modale 2 si elle est ouverte
-        overlay.style.display = 'none'; // Fermer l'overlay
-      
-    });
+iconClose.addEventListener('click', () => {
+    modal1.style.display = 'none'; // Fermer la modale 1
+    modal2.style.display = 'none'; // Fermer la modale 2 si elle est ouverte
+    overlay.style.display = 'none'; // Fermer l'overlay
+
+});
 
 
 // Delete work from modal
@@ -283,7 +283,7 @@ fileInput.addEventListener('change', (event) => {
             const img = document.querySelector('#preview');
             img.src = e.target.result; // Afficher l'image sélectionnée dans la modale
             img.style.display = 'block'; // Afficher l'aperçu de l'image
-            document.querySelector ('.button-file button').style.display = 'none'; // Cacher le bouton "Ajouter une image"
+            document.querySelector('.button-file button').style.display = 'none'; // Cacher le bouton "Ajouter une image"
             document.querySelector('.button-file i').style.display = 'none'; // Cacher l'icône d'image
             document.querySelector('.button-file p').style.display = 'none'; // Afficher le conteneur du bouton
         };
@@ -299,6 +299,7 @@ export const categoriesDrop = () => {
     categoriesContainer.innerHTML = ''; // Vider les catégories existantes
     for (let category of categoriesFetched) {
         const option = document.createElement('option');
+        if (category.id === 0) continue; // On ajoute pas l'option "Tous" dans le select
         option.textContent = category.name;
         option.value = category.id; // Utiliser l'ID de la catégorie comme valeur
         option.classList.add('category-option');
@@ -311,24 +312,31 @@ galleryForm.addEventListener('submit', async (event) => {
     event.preventDefault(); // Empêcher le comportement par défaut du formulaire
     const formData = new FormData(); // FormData pour envoyer les données du formulaire
     const titleInput = document.querySelector('#title');
+    const validationElement = document.querySelector('#input-color-validation');
+
+
 
     const title = titleInput.value.trim();
     const categoryId = parseInt(scrollCategories.value, 10);
     const file = fileInput.files[0];
 
-    if (!title || !file) {
-        alert('Veuillez remplir tous les champs du formulaire.');
+    if (!title || !file || isNaN(categoryId)) {
+        validationElement.classList.remove('valid-input');
+        const errorMessage = document.createElement('p');
+        errorMessage.className = 'error-message';
+        errorMessage.textContent = 'Veuillez remplir tous les champs du formulaire.';
+        galleryForm.appendChild(errorMessage);
+        setTimeout(() => errorMessage.remove(), 3000); // Supprimer après 3 secondes
         return;
     }
+
+    validationElement.classList.add('valid-input');
 
     // Ajouter les données du formulaire à FormData
     formData.append('image', file);
     formData.append('title', title);
     formData.append('category', categoryId.toString());
 
-    for (let pair of formData.entries()) {
-  console.log(pair[0]+ ': ' + pair[1]);
-}
 
     try {
         const response = await fetch(`${BASE_URL}/api/works/`, {
@@ -365,9 +373,177 @@ galleryForm.addEventListener('submit', async (event) => {
 
     } catch (error) {
         console.error('Erreur lors de l\'ajout de l\'oeuvre:', error);
+        const errorMessage = document.createElement('p');
+        errorMessage.className = 'error-message';
+        errorMessage.textContent = 'Une erreur est survenue lors de l\'ajout de l\'œuvre. Veuillez réessayer.';
+        galleryForm.appendChild(errorMessage);
+        setTimeout(() => errorMessage.remove(), 3000); // Supprimer après 3 secondes
+        return;
     }
 });
 
 
 
 
+// // Fonction de validation en temps réel
+// function validateForm() {
+//     const title = titleInput.value.trim();
+//     const file = fileInput.files[0];
+//     const categoryId = parseInt(scrollCategories.value, 10);
+
+//     const isValid = title && file && !isNaN(categoryId);
+
+//     inputValidation.disabled = !isValid;
+
+//     if (isValid) {
+//         inputValidation.classList.remove('disabled');
+//     } else {
+//         inputValidation.classList.add('disabled');
+//     }
+// }
+
+// // Écouteurs pour surveiller tous les champs
+// titleInput.addEventListener('input', validateForm);
+// fileInput.addEventListener('change', validateForm);
+// scrollCategories.addEventListener('change', validateForm);
+
+
+
+
+// Test pour vérifier la validité du formulaire et l'apparence du bouton de validation
+
+// const galleryForm = document.querySelector('#modalForm');
+// const validationButton = document.querySelector('#input-color-validation');
+// const titleInput = document.querySelector('#title');
+
+// // Fonction pour vérifier la validité du formulaire
+// function isFormValid() {
+//     const title = titleInput.value.trim();
+//     const categoryId = parseInt(scrollCategories.value, 10);
+//     const file = fileInput.files[0];
+//     return title && file && !isNaN(categoryId);
+// }
+
+// // Fonction pour mettre à jour l'apparence du bouton
+// function updateButtonState() {
+//     if (!validationButton) return; // Éviter les erreurs si l'élément est manquant
+//     if (isFormValid()) {
+//         validationButton.classList.add('valid-input');
+//         validationButton.classList.remove('invalid-input');
+//     } else {
+//         validationButton.classList.remove('valid-input');
+//         validationButton.classList.add('invalid-input');
+//     }
+// }
+
+// // Vérification des éléments DOM
+// if (!galleryForm || !titleInput || !scrollCategories || !fileInput || !validationButton) {
+//     console.error('Un ou plusieurs éléments DOM sont introuvables.');
+// } else {
+//     // Écouteurs pour mise à jour dynamique
+//     titleInput.addEventListener('input', updateButtonState);
+//     scrollCategories.addEventListener('change', updateButtonState);
+//     fileInput.addEventListener('change', updateButtonState);
+//     updateButtonState(); // Initialiser l'état du bouton
+//     }
+
+//     // Gestion de la soumission
+//     galleryForm.addEventListener('submit', async (event) => {
+//         event.preventDefault();
+
+//         const preview = document.querySelector('#preview');
+//         const fileButton = document.querySelector('.button-file button');
+//         const fileIcon = document.querySelector('.button-file i');
+//         const fileText = document.querySelector('.button-file p');
+//         const gallery = document.querySelector('#gallery');
+//         const galleryModal = document.querySelector('#galleryModal');
+//         const modal2 = document.querySelector('#modal2');
+//         const overlay = document.querySelector('#overlay');
+
+//         // Vérification des éléments supplémentaires
+//         if (!preview || !fileButton || !fileIcon || !fileText || !gallery || !galleryModal || !modal2 || !overlay) {
+//             console.error('Un ou plusieurs éléments DOM sont introuvables.');
+//             const errorMessage = document.createElement('p');
+//             errorMessage.className = 'error-message';
+//             errorMessage.textContent = 'Erreur : éléments de l\'interface manquants.';
+//             errorMessage.setAttribute('role', 'alert');
+//             galleryForm.appendChild(errorMessage);
+//             setTimeout(() => errorMessage.remove(), 3000);
+//             return;
+//         }
+
+//         const formData = new FormData();
+//         const title = titleInput.value.trim();
+//         const categoryId = parseInt(scrollCategories.value, 10);
+//         const file = fileInput.files[0];
+
+//         // Validation
+//         if (!isFormValid()) {
+//             validationButton.classList.remove('valid-input');
+//             validationButton.classList.add('invalid-input');
+//             const errorMessage = document.createElement('p');
+//             errorMessage.className = 'error-message';
+//             errorMessage.textContent = 'Veuillez remplir tous les champs du formulaire.';
+//             errorMessage.setAttribute('role', 'alert');
+//             galleryForm.appendChild(errorMessage);
+//             setTimeout(() => errorMessage.remove(), 3000);
+//             return;
+//         }
+
+//         // Ajout des données à FormData
+//         formData.append('image', file);
+//         formData.append('title', title);
+//         formData.append('category', categoryId.toString());
+
+//         try {
+//             const token = localStorage.getItem('token');
+//             if (!token) {
+//                 throw new Error('Aucun token d\'authentification trouvé.');
+//             }
+
+//             const response = await fetch(`${BASE_URL}/api/works/`, {
+//                 method: 'POST',
+//                 headers: {
+//                     'Authorization': `Bearer ${token}`
+//                 },
+//                 body: formData
+//             });
+
+//             if (!response.ok) {
+//                 throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+//             }
+
+//             const newWork = await response.json();
+//             console.log('Nouvelle œuvre ajoutée :', newWork);
+
+//             // Réinitialisation du formulaire
+//             galleryForm.reset();
+//             fileInput.value = '';
+//             preview.style.display = 'none';
+//             fileButton.style.display = 'block';
+//             fileIcon.style.display = 'block';
+//             fileText.style.display = 'block';
+
+//             // Mise à jour de la galerie
+//             const figure = createFigure(newWork); // Assurez-vous que createFigure est défini
+//             gallery.appendChild(figure);
+//             galleryModal.innerHTML = '';
+//             await getWorksModal(); // Assurez-vous que getWorksModal est défini
+
+//             // Fermeture de la modale
+//             modal2.style.display = 'none';
+//             overlay.style.display = 'none';
+
+//             // Réinitialiser l'état du bouton
+//             updateButtonState();
+
+//         } catch (error) {
+//             console.error('Erreur lors de l\'ajout de l\'œuvre :', error);
+//             const errorMessage = document.createElement('p');
+//             errorMessage.className = 'error-message';
+//             errorMessage.textContent = 'Une erreur est survenue lors de l\'ajout de l\'œuvre. Veuillez réessayer.';
+//             errorMessage.setAttribute('role', 'alert');
+//             galleryForm.appendChild(errorMessage);
+//             setTimeout(() => errorMessage.remove(), 3000);
+//         }
+//     });
