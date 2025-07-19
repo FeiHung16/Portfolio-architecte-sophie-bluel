@@ -9,6 +9,8 @@ const btnTrigger = document.querySelector('.modal-trigger'); //Bouton ajouter un
 const fileInput = document.querySelector('#fileInput'); // Input pour ajouter une image
 const buttonFile = document.querySelector('.button-file'); // Bouton pour ajouter une image
 const iconeImage = document.querySelector ('.fa-image')
+const scrollCategories = document.querySelector('#categorieDrop');
+
 
 
 
@@ -293,20 +295,78 @@ fileInput.addEventListener('change', (event) => {
     }
 });
 
-
-const scrollCategories = document.querySelector('#categorieDrop');
-let option = [];
-
 export const categoriesDrop = () => {
     categoriesContainer.innerHTML = ''; // Vider les catégories existantes
     for (let category of categoriesFetched) {
         const option = document.createElement('option');
         option.textContent = category.name;
-        option.setAttribute('data-category-id', category.id); // Ajouter l'ID de la catégorie comme attribut de données
+        option.value = category.id; // Utiliser l'ID de la catégorie comme valeur
         option.classList.add('category-option');
         scrollCategories.appendChild(option);
     }
 }
+
+const galleryForm = document.querySelector('#modalForm');
+galleryForm.addEventListener('submit', async (event) => {
+    event.preventDefault(); // Empêcher le comportement par défaut du formulaire
+    const formData = new FormData(); // FormData pour envoyer les données du formulaire
+    const titleInput = document.querySelector('#title');
+
+    const title = titleInput.value.trim();
+    const categoryId = parseInt(scrollCategories.value, 10);
+    const file = fileInput.files[0];
+
+    if (!title || !file) {
+        alert('Veuillez remplir tous les champs du formulaire.');
+        return;
+    }
+
+    // Ajouter les données du formulaire à FormData
+    formData.append('image', file);
+    formData.append('title', title);
+    formData.append('category', categoryId.toString());
+
+    for (let pair of formData.entries()) {
+  console.log(pair[0]+ ': ' + pair[1]);
+}
+
+    try {
+        const response = await fetch(`${BASE_URL}/api/works/`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const newWork = await response.json();
+        console.log("Nouvelle oeuvre ajoutée :", newWork);
+
+        // Réinitialiser le formulaire et l'aperçu de l'image
+        galleryForm.reset();
+        fileInput.value = ''; // Réinitialiser l'input file
+        document.querySelector('#preview').style.display = 'none'; // Cacher l'aperçu de l'image
+        document.querySelector('.button-file button').style.display = 'block'; // Afficher le bouton "Ajouter une image"
+        document.querySelector('.button-file i').style.display = 'block'; // Afficher l'icône d'image
+        document.querySelector('.button-file p').style.display = 'block'; // Afficher le conteneur du bouton
+
+        // Mettre à jour la galerie avec la nouvelle oeuvre
+        const figure = createFigure(newWork);
+        gallery.appendChild(figure);
+        galleryModal.innerHTML = ''; // Vider la galerie modale pour mettre à jour les travaux
+        await getWorksModal(); // Récupérer les travaux mis à jour dans la modale
+
+        modal2.style.display = 'none'; // Fermer la modale 2
+        overlay.style.display = 'none'; // Fermer l'overlay
+
+    } catch (error) {
+        console.error('Erreur lors de l\'ajout de l\'oeuvre:', error);
+    }
+});
 
 
 
