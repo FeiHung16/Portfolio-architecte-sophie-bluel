@@ -546,14 +546,18 @@ hr {
 	object-fit: cover;
 }
 
-#input-color-validation {
-	background: grey
+#valid-input {
+	font-family: 'Syne';
+	font-weight: 700;
+	background: rgba(29, 97, 84, 1);
+	color: white;
+	cursor: pointer;
+	margin: 2em auto;
+	width: 180px;
+	text-align: center;
+	border-radius: 60px;
 }
 
-.valid-input {
-  color: green;
-  font-weight: bold;
-}
 
 .error-message {
 	margin-top: 10px;
@@ -638,7 +642,7 @@ hr {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"] {
+input[type="submit"] [value="Envoyer"] {
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;

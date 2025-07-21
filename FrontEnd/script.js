@@ -10,6 +10,9 @@ const fileInput = document.querySelector('#fileInput'); // Input pour ajouter un
 const buttonFile = document.querySelector('.button-file'); // Bouton pour ajouter une image
 const iconeImage = document.querySelector('.fa-image')
 const scrollCategories = document.querySelector('#categorieDrop');
+const categoriesSelect = document.querySelector('#categorieDrop'); // Sélecteur de catégories
+const titleInput = document.querySelector('#title');
+const validationButton = document.querySelector('#valid-input'); // Bouton de validation du formulaire
 
 
 
@@ -244,8 +247,10 @@ const btnTrigger2 = document.querySelector('.modal-button-add'); //Bouton modifi
 
 btnTrigger2.addEventListener('click', (e) => {
     e.preventDefault();
-    modal2.style.display = 'block'; // Afficher la modale 2
+    validateForm(); // Appeler la fonction de validation du formulaire pour mettre à jour l'état du bouton
     modal1.style.display = 'none'; // Fermer la modale 1
+    modal2.style.display = 'block'; // Afficher la modale 2
+    
 
     const modalArrow = document.querySelector('.modal-arrow');
     modalArrow.addEventListener('click', () => {
@@ -296,9 +301,10 @@ fileInput.addEventListener('change', (event) => {
 });
 
 export const categoriesDrop = () => {
-    categoriesContainer.innerHTML = ''; // Vider les catégories existantes
+    scrollCategories.innerHTML = ''; // Vider les catégories existantes
     // Option vide par défaut
         const defaultOption = document.createElement('option');
+        defaultOption.value = '0';
         scrollCategories.appendChild(defaultOption);
     for (let category of categoriesFetched) {
         
@@ -311,35 +317,45 @@ export const categoriesDrop = () => {
     }
 }
 
+
+
 const galleryForm = document.querySelector('#modalForm');
+
+//Fonction de validation du formulaire
+const validateForm = () => {
+    const title = titleInput.value;
+    const category = categoriesSelect.value; // Récupérer la valeur du select des catégories
+    const categoriesNumbers = parseInt(category, 10); // Convertir la valeur en nombre
+    const file = fileInput.files[0];
+    const isValid = title.trim() !== '' && !!file && categoriesNumbers !== 0; // Vérifier que tous les champs sont remplis
+    validationButton.disabled = !isValid; // Désactiver le bouton si le formulaire n'est pas valide
+    validationButton.style.backgroundColor = isValid ? 'rgba(29, 97, 84, 1)' : 'grey'; // Changer la couleur du bouton en fonction de la validité
+    validationButton.style.cursor = isValid ? 'pointer' : 'not-allowed'; // Changer le curseur en fonction de la validité
+}
+
+// Ajouter des écouteurs d'événements juste après
+titleInput.addEventListener('input', validateForm);
+fileInput.addEventListener('change', validateForm);
+scrollCategories.addEventListener('change', validateForm);
+validateForm(); // Appeler la fonction de validation pour initialiser l'état du bouton
+
 galleryForm.addEventListener('submit', async (event) => {
     event.preventDefault(); // Empêcher le comportement par défaut du formulaire
     const formData = new FormData(); // FormData pour envoyer les données du formulaire
-    const titleInput = document.querySelector('#title');
-    const validationElement = document.querySelector('#input-color-validation');
-
-
-
+    
     const title = titleInput.value.trim();
     const categoryId = parseInt(scrollCategories.value, 10);
     const file = fileInput.files[0];
-
-    if (!title || !file || isNaN(categoryId)) {
-        validationElement.classList.remove('valid-input');
-        const errorMessage = document.createElement('p');
-        errorMessage.className = 'error-message';
-        errorMessage.textContent = 'Veuillez remplir tous les champs du formulaire.';
-        galleryForm.appendChild(errorMessage);
-        setTimeout(() => errorMessage.remove(), 3000); // Supprimer après 3 secondes
-        return;
-    }
-
-    validationElement.classList.add('valid-input');
+    console.log("Titre :", title);
+    console.log("ID de la catégorie :", categoryId);
+    console.log("Fichier :", file);
+    
+    
 
     // Ajouter les données du formulaire à FormData
     formData.append('image', file);
     formData.append('title', title);
-    formData.append('category', categoryId.toString());
+    formData.append('category', categoryId);
 
 
     try {
