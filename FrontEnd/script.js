@@ -297,7 +297,11 @@ fileInput.addEventListener('change', (event) => {
 
 export const categoriesDrop = () => {
     categoriesContainer.innerHTML = ''; // Vider les catégories existantes
+    // Option vide par défaut
+        const defaultOption = document.createElement('option');
+        scrollCategories.appendChild(defaultOption);
     for (let category of categoriesFetched) {
+        
         const option = document.createElement('option');
         if (category.id === 0) continue; // On ajoute pas l'option "Tous" dans le select
         option.textContent = category.name;

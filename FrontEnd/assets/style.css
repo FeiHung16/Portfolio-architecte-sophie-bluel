@@ -468,6 +468,8 @@ hr {
 
 .modal-form [type="submit"] {
 	position: absolute;
+	width: 237px;
+	height: 36px;
     right: 0;
     left: 0;
     bottom: 5%;
@@ -544,6 +546,20 @@ hr {
 	object-fit: cover;
 }
 
+#input-color-validation {
+	background: grey
+}
+
+.valid-input {
+  color: green;
+  font-weight: bold;
+}
+
+.error-message {
+	margin-top: 10px;
+  color: red;
+  font-weight: bold;
+}
 
 .categories {
 	display: flex;
