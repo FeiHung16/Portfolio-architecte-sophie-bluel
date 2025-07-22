@@ -222,7 +222,7 @@ nav li {
 }
 
 nav li:nth-child(3) {
-	font-family: Work Sans;
+	font-family: 'Work Sans';
 	font-weight: 600;
 	font-size: 16px;
 	text-align: center;
@@ -553,7 +553,7 @@ hr {
 	color: white;
 	cursor: pointer;
 	margin: 2em auto;
-	width: 180px;
+	width: 40%;
 	text-align: center;
 	border-radius: 60px;
 }
@@ -660,8 +660,8 @@ footer nav ul {
 }
 
 footer nav li {
-	font-family: Work Sans;
-	font-size: 14px;
+	font-family: 'Work Sans';
+	font-size: 1.2em;
 	font-weight: 300;
 }
 
@@ -695,7 +695,7 @@ footer nav li {
 }
 
 #login label {
-	font-family: Work Sans;
+	font-family: 'Work Sans';
 	margin: 2em 0 1em 0;
 	font-weight: 500;
 	font-size: 14px;
@@ -706,7 +706,7 @@ footer nav li {
 	display: flow;
 	margin-top: 10px;
 	color: rgba(61, 61, 61, 1);
-	font-family: Work Sans;
+	font-family: 'Work Sans';
 	font-weight: 500;
 	font-size: 14px;
 	text-decoration: underline;
