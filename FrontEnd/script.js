@@ -3,7 +3,7 @@ const categoriesContainer = document.querySelector('.categories');
 const login = document.querySelector('#loginProfile');
 const modal1 = document.querySelector('.modal-1');
 const galleryModal = document.querySelector('.galleryModal');
-const iconClose = document.querySelector('.modal-icon');
+const iconClose = document.querySelectorAll('.fa-xmark');
 const overlay = document.querySelector('.overlay');
 const btnTrigger = document.querySelector('.modal-trigger'); //Bouton ajouter une image
 const fileInput = document.querySelector('#fileInput'); // Input pour ajouter une image
@@ -175,6 +175,15 @@ const getWorksModal = async () => {
 };
 getWorksModal();
 
+
+iconClose.forEach(button => {
+    button.addEventListener('click', (e) => {
+        modal1.style.display = 'none'; // Fermer la modale 1
+        modal2.style.display = 'none'; // Fermer la modale 2 si elle est ouverte
+        overlay.style.display = 'none'; // Fermer l'overlay
+});
+});
+
 // Modale 1 apparition 
 
 btnTrigger.addEventListener('click', (e) => {
@@ -191,14 +200,6 @@ btnTrigger.addEventListener('click', (e) => {
         }
     }
     );
-});
-
-
-iconClose.addEventListener('click', () => {
-    modal1.style.display = 'none'; // Fermer la modale 1
-    modal2.style.display = 'none'; // Fermer la modale 2 si elle est ouverte
-    overlay.style.display = 'none'; // Fermer l'overlay
-
 });
 
 
@@ -252,14 +253,13 @@ btnTrigger2.addEventListener('click', (e) => {
     modal2.style.display = 'block'; // Afficher la modale 2
     
 
+
+
     const modalArrow = document.querySelector('.modal-arrow');
     modalArrow.addEventListener('click', () => {
         modal2.style.display = 'none'; // Fermer la modale 2
         modal1.style.display = 'block'; // Réafficher la modale 1
     });
-
-
-
 
     window.addEventListener('click', (event) => {
         if (event.target === overlay) {
@@ -402,168 +402,3 @@ galleryForm.addEventListener('submit', async (event) => {
     }
 });
 
-
-
-
-// // Fonction de validation en temps réel
-// function validateForm() {
-//     const title = titleInput.value.trim();
-//     const file = fileInput.files[0];
-//     const categoryId = parseInt(scrollCategories.value, 10);
-
-//     const isValid = title && file && !isNaN(categoryId);
-
-//     inputValidation.disabled = !isValid;
-
-//     if (isValid) {
-//         inputValidation.classList.remove('disabled');
-//     } else {
-//         inputValidation.classList.add('disabled');
-//     }
-// }
-
-// // Écouteurs pour surveiller tous les champs
-// titleInput.addEventListener('input', validateForm);
-// fileInput.addEventListener('change', validateForm);
-// scrollCategories.addEventListener('change', validateForm);
-
-
-
-
-// Test pour vérifier la validité du formulaire et l'apparence du bouton de validation
-
-// const galleryForm = document.querySelector('#modalForm');
-// const validationButton = document.querySelector('#input-color-validation');
-// const titleInput = document.querySelector('#title');
-
-// // Fonction pour vérifier la validité du formulaire
-// function isFormValid() {
-//     const title = titleInput.value.trim();
-//     const categoryId = parseInt(scrollCategories.value, 10);
-//     const file = fileInput.files[0];
-//     return title && file && !isNaN(categoryId);
-// }
-
-// // Fonction pour mettre à jour l'apparence du bouton
-// function updateButtonState() {
-//     if (!validationButton) return; // Éviter les erreurs si l'élément est manquant
-//     if (isFormValid()) {
-//         validationButton.classList.add('valid-input');
-//         validationButton.classList.remove('invalid-input');
-//     } else {
-//         validationButton.classList.remove('valid-input');
-//         validationButton.classList.add('invalid-input');
-//     }
-// }
-
-// // Vérification des éléments DOM
-// if (!galleryForm || !titleInput || !scrollCategories || !fileInput || !validationButton) {
-//     console.error('Un ou plusieurs éléments DOM sont introuvables.');
-// } else {
-//     // Écouteurs pour mise à jour dynamique
-//     titleInput.addEventListener('input', updateButtonState);
-//     scrollCategories.addEventListener('change', updateButtonState);
-//     fileInput.addEventListener('change', updateButtonState);
-//     updateButtonState(); // Initialiser l'état du bouton
-//     }
-
-//     // Gestion de la soumission
-//     galleryForm.addEventListener('submit', async (event) => {
-//         event.preventDefault();
-
-//         const preview = document.querySelector('#preview');
-//         const fileButton = document.querySelector('.button-file button');
-//         const fileIcon = document.querySelector('.button-file i');
-//         const fileText = document.querySelector('.button-file p');
-//         const gallery = document.querySelector('#gallery');
-//         const galleryModal = document.querySelector('#galleryModal');
-//         const modal2 = document.querySelector('#modal2');
-//         const overlay = document.querySelector('#overlay');
-
-//         // Vérification des éléments supplémentaires
-//         if (!preview || !fileButton || !fileIcon || !fileText || !gallery || !galleryModal || !modal2 || !overlay) {
-//             console.error('Un ou plusieurs éléments DOM sont introuvables.');
-//             const errorMessage = document.createElement('p');
-//             errorMessage.className = 'error-message';
-//             errorMessage.textContent = 'Erreur : éléments de l\'interface manquants.';
-//             errorMessage.setAttribute('role', 'alert');
-//             galleryForm.appendChild(errorMessage);
-//             setTimeout(() => errorMessage.remove(), 3000);
-//             return;
-//         }
-
-//         const formData = new FormData();
-//         const title = titleInput.value.trim();
-//         const categoryId = parseInt(scrollCategories.value, 10);
-//         const file = fileInput.files[0];
-
-//         // Validation
-//         if (!isFormValid()) {
-//             validationButton.classList.remove('valid-input');
-//             validationButton.classList.add('invalid-input');
-//             const errorMessage = document.createElement('p');
-//             errorMessage.className = 'error-message';
-//             errorMessage.textContent = 'Veuillez remplir tous les champs du formulaire.';
-//             errorMessage.setAttribute('role', 'alert');
-//             galleryForm.appendChild(errorMessage);
-//             setTimeout(() => errorMessage.remove(), 3000);
-//             return;
-//         }
-
-//         // Ajout des données à FormData
-//         formData.append('image', file);
-//         formData.append('title', title);
-//         formData.append('category', categoryId.toString());
-
-//         try {
-//             const token = localStorage.getItem('token');
-//             if (!token) {
-//                 throw new Error('Aucun token d\'authentification trouvé.');
-//             }
-
-//             const response = await fetch(`${BASE_URL}/api/works/`, {
-//                 method: 'POST',
-//                 headers: {
-//                     'Authorization': `Bearer ${token}`
-//                 },
-//                 body: formData
-//             });
-
-//             if (!response.ok) {
-//                 throw new Error(`Erreur ${response.status}: ${response.statusText}`);
-//             }
-
-//             const newWork = await response.json();
-//             console.log('Nouvelle œuvre ajoutée :', newWork);
-
-//             // Réinitialisation du formulaire
-//             galleryForm.reset();
-//             fileInput.value = '';
-//             preview.style.display = 'none';
-//             fileButton.style.display = 'block';
-//             fileIcon.style.display = 'block';
-//             fileText.style.display = 'block';
-
-//             // Mise à jour de la galerie
-//             const figure = createFigure(newWork); // Assurez-vous que createFigure est défini
-//             gallery.appendChild(figure);
-//             galleryModal.innerHTML = '';
-//             await getWorksModal(); // Assurez-vous que getWorksModal est défini
-
-//             // Fermeture de la modale
-//             modal2.style.display = 'none';
-//             overlay.style.display = 'none';
-
-//             // Réinitialiser l'état du bouton
-//             updateButtonState();
-
-//         } catch (error) {
-//             console.error('Erreur lors de l\'ajout de l\'œuvre :', error);
-//             const errorMessage = document.createElement('p');
-//             errorMessage.className = 'error-message';
-//             errorMessage.textContent = 'Une erreur est survenue lors de l\'ajout de l\'œuvre. Veuillez réessayer.';
-//             errorMessage.setAttribute('role', 'alert');
-//             galleryForm.appendChild(errorMessage);
-//             setTimeout(() => errorMessage.remove(), 3000);
-//         }
-//     });
