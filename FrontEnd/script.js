@@ -7,8 +7,6 @@ const iconClose = document.querySelectorAll('.fa-xmark');
 const overlay = document.querySelector('.overlay');
 const btnTrigger = document.querySelector('.modal-trigger'); //Bouton ajouter une image
 const fileInput = document.querySelector('#fileInput'); // Input pour ajouter une image
-const buttonFile = document.querySelector('.button-file'); // Bouton pour ajouter une image
-const iconeImage = document.querySelector('.fa-image')
 const scrollCategories = document.querySelector('#categorieDrop');
 const categoriesSelect = document.querySelector('#categorieDrop'); // Sélecteur de catégories
 const titleInput = document.querySelector('#title');
@@ -181,7 +179,7 @@ iconClose.forEach(button => {
         modal1.style.display = 'none'; // Fermer la modale 1
         modal2.style.display = 'none'; // Fermer la modale 2 si elle est ouverte
         overlay.style.display = 'none'; // Fermer l'overlay
-});
+    });
 });
 
 // Modale 1 apparition 
@@ -251,7 +249,7 @@ btnTrigger2.addEventListener('click', (e) => {
     validateForm(); // Appeler la fonction de validation du formulaire pour mettre à jour l'état du bouton
     modal1.style.display = 'none'; // Fermer la modale 1
     modal2.style.display = 'block'; // Afficher la modale 2
-    
+
 
 
 
@@ -303,11 +301,11 @@ fileInput.addEventListener('change', (event) => {
 export const categoriesDrop = () => {
     scrollCategories.innerHTML = ''; // Vider les catégories existantes
     // Option vide par défaut
-        const defaultOption = document.createElement('option');
-        defaultOption.value = '0';
-        scrollCategories.appendChild(defaultOption);
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '0';
+    scrollCategories.appendChild(defaultOption);
     for (let category of categoriesFetched) {
-        
+
         const option = document.createElement('option');
         if (category.id === 0) continue; // On ajoute pas l'option "Tous" dans le select
         option.textContent = category.name;
@@ -341,17 +339,22 @@ validateForm(); // Appeler la fonction de validation pour initialiser l'état du
 
 galleryForm.addEventListener('submit', async (event) => {
     event.preventDefault(); // Empêcher le comportement par défaut du formulaire
+
     const formData = new FormData(); // FormData pour envoyer les données du formulaire
-    
+
     const title = titleInput.value.trim();
     const categoryId = parseInt(scrollCategories.value, 10);
     const file = fileInput.files[0];
     console.log("Titre :", title);
     console.log("ID de la catégorie :", categoryId);
     console.log("Fichier :", file);
-    
-    
 
+    // Demande de confirmation avant l'envoi
+    const isConfirmed = confirm("Voulez-vous vraiment ajouter cette œuvre à la galerie ?");
+
+    if (!isConfirmed) {
+        return; // Si l'utilisateur annule, on arrête l'exécution de la fonction
+    }
     // Ajouter les données du formulaire à FormData
     formData.append('image', file);
     formData.append('title', title);
@@ -373,6 +376,8 @@ galleryForm.addEventListener('submit', async (event) => {
 
         const newWork = await response.json();
         console.log("Nouvelle oeuvre ajoutée :", newWork);
+        // Afficher un message de succès
+        alert("Œuvre ajoutée avec succès");
 
         // Réinitialiser le formulaire et l'aperçu de l'image
         galleryForm.reset();
