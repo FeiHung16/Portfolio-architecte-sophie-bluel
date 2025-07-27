@@ -196,7 +196,7 @@ h1>span {
     font-family: 'Work Sans', serif;
     font-size: 10px;
     letter-spacing: 0.1em;
-    ;
+    
 }
 
 h2 {
@@ -327,6 +327,7 @@ li:hover {
     height: 680px;
     max-width: 630px;
     background: white;
+	border-radius: 10px;
 }
 
 
@@ -361,7 +362,7 @@ li:hover {
     display: flex;
     position: absolute;
     top: 5px;
-    right: 30px;
+    right: 9px;
 }
 
 .delete-icon i {
@@ -378,11 +379,10 @@ li:hover {
 
 .galleryModal {
     display: grid;
-    width: 100%;
-    margin: auto;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-column-gap: 0px;
-    grid-row-gap: 15px;
+    grid-row-gap: 35px;
+	margin: 0 105px;
 }
 
 .galleryModal figure {
@@ -393,8 +393,8 @@ li:hover {
 }
 
 .galleryModal img {
-    width: 60%;
-    height: 100%;
+    width: 77px;
+    height: 106px;
     object-fit: cover;
 }
 
@@ -402,6 +402,7 @@ hr {
     position: absolute;
     left: 0;
     right: 0;
+	width: 420px;
     bottom: 15%;
 }
 
